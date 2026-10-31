@@ -1,5 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "pycraft"
 version = "0.1.0"
+authors = [
+    {name = "ArmadilloMike", email = "armadillomike@armadillomike.dev"}
+]
+maintainers = [
+    {name = "ArmadilloMike", email = "armadillomike@armadillomike.dev"}
+]
+description = "Make Minecraft mods in pure Python"
+readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/armadillomike/pycraft"
+"Bug Tracker" = "https://github.com/armadillomike/pycraft/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pycraft"]
