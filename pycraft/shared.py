@@ -10,6 +10,7 @@ class ModConfig:
     name: str
     mod_id: str = "examplemod"
     version: str = "1.0.0"
+    minecraft_version: str = "1.21.1"
 
     def to_dict(self) -> dict:
         """Turns the object into a dictionary"""
