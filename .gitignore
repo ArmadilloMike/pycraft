@@ -2,6 +2,7 @@
 __pycache__/
 *.py[codz]
 *$py.class
+testing.py
 
 # C extensions
 *.so
@@ -218,3 +219,5 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+!/testing.py
+!/testing.py
