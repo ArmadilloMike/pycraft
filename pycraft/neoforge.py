@@ -2,6 +2,7 @@
 Holds all the classes for neoforge modding
 """
 import io
+import os
 import urllib.request
 import urllib.error
 import zipfile
@@ -32,7 +33,13 @@ class NeoforgeMod:
 
             print("Extracting mod files, please be patient")
             with zipfile.ZipFile(zip_buffer) as zip_ref:
+                original_root_folder = zip_ref.namelist()[0].split('/')[0]
                 zip_ref.extractall(destination_path)
+
+            old_folder_path = os.path.join(destination_path, original_root_folder)
+            new_folder_path = os.path.join(destination_path, self.config.name)
+
+            os.rename(old_folder_path, new_folder_path)
 
             print("Mod files successfully extracted")
         except urllib.error.HTTPError as e:
