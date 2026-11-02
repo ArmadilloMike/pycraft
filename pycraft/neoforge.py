@@ -37,7 +37,7 @@ class NeoforgeMod:
                 zip_ref.extractall(destination_path)
 
             old_folder_path = os.path.join(destination_path, original_root_folder)
-            new_folder_path = os.path.join(destination_path, self.config.name)
+            new_folder_path = os.path.join(destination_path, f"{self.config.name}-modfiles")
 
             os.rename(old_folder_path, new_folder_path)
 
