@@ -10,7 +10,9 @@ from .shared import ModConfig
 
 class NeoforgeMod:
     """Main mod class for neoforge mods"""
-    config: ModConfig
+
+    def __init__(self, config: ModConfig) -> None:
+        self.config = config
 
     def _clone_neoforge_repo(self, destination_path: str) -> None:
         """Clones the neoforge repo for the version of minecraft"""
