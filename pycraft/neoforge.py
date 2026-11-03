@@ -25,7 +25,7 @@ class NeoforgeMod:
     def _clone_neoforge_repo(self, destination_path: str) -> None:
         """Clones the neoforge repo for the version of minecraft"""
         if self.config.minecraft_version == "1.21.1":
-            git_url = "https://github.com/NeoForgeMDKs/MDK-1.21.1-ModDevGradle".rstrip("/")
+            git_url = "https://github.com/pycraft-repos/1.21.1-neoforge-base".rstrip("/")
         elif self.config.minecraft_version == "26.1":
             git_url = "https://github.com/NeoForgeMDKs/MDK-26.1-ModDevGradle".rstrip("/")
         else:
