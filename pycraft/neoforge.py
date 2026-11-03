@@ -8,6 +8,7 @@ import urllib.error
 import zipfile
 from pathlib import Path
 
+from ._utils import find_and_replace
 from .shared import ModConfig
 
 class NeoforgeMod:
@@ -54,3 +55,21 @@ class NeoforgeMod:
         properties = self.config.gen_neo_grade_prop()
         gradle_props_file = Path(f"{self.mod_folder_name}/gradle.properties")
         gradle_props_file.write_text(properties)
+
+    def replace_neoforge_mods_toml(self) -> None:
+        """Replace default values in neofroge.mods.tol with updated contents from config object"""
+        mod_toml_path = f"{self.mod_folder_name}/src/main/templates/META-INF/neoforge.mods.toml"
+        if self.config.mod_homepage_url is not None:
+            find_and_replace('#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional', f'displayURL="{self.config.mod_homepage_url}"', mod_toml_path)
+        if self.config.mod_logo_file is not None:
+            find_and_replace('#logoFile="examplemod.png" #optional', f'logoFile="{self.config.mod_logo_file}"', mod_toml_path)
+        if self.config.mod_credits is not None:
+            find_and_replace('#credits="" #optional', f'credits="{self.config.mod_credits}"', mod_toml_path)
+        if self.config.mod_authors is not None:
+            find_and_replace('#authors=""', f'authors="{self.config.mod_authors}"', mod_toml_path)
+        if self.config.mod_description is not None:
+            find_and_replace("""description='''
+Example mod description.
+'''""", f"""description='''
+{self.config.mod_description}
+'''""", mod_toml_path)
