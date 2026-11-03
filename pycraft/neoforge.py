@@ -7,6 +7,7 @@ import subprocess
 import urllib.request
 import urllib.error
 import zipfile
+from dataclasses import dataclass
 from pathlib import Path
 from jinja2 import Environment, PackageLoader
 
@@ -125,8 +126,43 @@ class NeoforgeItem:
     item_description: str | None = None
     max_stack_size: int | None = None
     durability: int | None = None
-    fire_resistant: bool | None = None
+    fire_resistant: bool = False
     rarity: int | None = None
 
     def __post_init__(self) -> None:
         self.item_id = self.item_name.lower().replace(" ", "_")
+
+    def gen_java_code(self) -> str:
+        if self.rarity is not None:
+            if self.rarity == 1:
+                rarity_line = ".rarity(Rarity.COMMON)"
+            elif self.rarity == 2:
+                rarity_line = ".rarity(Rarity.UNCOMMON)"
+            elif self.rarity == 3:
+                rarity_line = ".rarity(Rarity.RARE)"
+            elif self.rarity == 4:
+                rarity_line = ".rarity(Rarity.EPIC)"
+            elif self.rarity < 0:
+                rarity_line = ".rarity(Rarity.COMMON)"
+            elif self.rarity > 4:
+                rarity_line = ".rarity(Rarity.EPIC)"
+            else:
+                rarity_line = ".rarity(Rarity.COMMON)"
+        else:
+            rarity_line = ".rarity(Rarity.COMMON)"
+        properties = []
+        if self.max_stack_size is not None:
+            properties.append(f".stacksTo({self.max_stack_size})")
+        if self.durability is not None:
+            properties.append(f".durability({self.durability})")
+        if getattr(self, 'fire_resistant', False):
+            properties.append(".fireResistant()")
+        if rarity_line:
+            properties.append(rarity_line)
+
+        prop_string = "\n            ".join(properties)
+
+        code = f'''public static final DeferredItem<Item> {self.item_id.upper()} = 
+                ITEMS.registerSimpleItem("{self.item_id}", new Item.Properties()
+                    {prop_string});'''
+        return code
