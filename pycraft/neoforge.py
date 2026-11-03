@@ -123,6 +123,7 @@ Example mod description.
 class NeoforgeItem:
     """A NeoForge item definition"""
     item_name: str
+    mod_id: str
     item_description: str | None = None
     max_stack_size: int | None = None
     durability: int | None = None
