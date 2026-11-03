@@ -117,3 +117,16 @@ Example mod description.
             print(f"An error occurred while trying to start the NeoForge client: {e}")
         except FileNotFoundError:
             print("The gradle exe was not found, try deleting the mod folder and running again.")
+
+@dataclass
+class NeoforgeItem:
+    """A NeoForge item definition"""
+    item_name: str
+    item_description: str
+    max_stack_size: int
+    durability: int
+    fire_resistant: bool
+    rarity: int
+
+    def __post_init__(self) -> None:
+        self.item_id = self.item_name.lower().replace(" ", "_")
