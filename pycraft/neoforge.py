@@ -159,6 +159,8 @@ class NeoforgeItem:
             properties.append(".fireResistant()")
         if rarity_line:
             properties.append(rarity_line)
+        if self.item_description is not None:
+            properties.append(f'.withDescription(Component.translatable("item.{self.mod_id}.{self.item_id}.desc"))')
 
         prop_string = "\n            ".join(properties)
 
