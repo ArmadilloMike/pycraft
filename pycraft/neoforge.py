@@ -8,6 +8,7 @@ import urllib.request
 import urllib.error
 import zipfile
 from pathlib import Path
+from jinja2 import Environment, PackageLoader
 
 from ._utils import find_and_replace
 from .shared import ModConfig
@@ -76,6 +77,22 @@ Example mod description.
 '''""", f"""description='''
 {self.config.mod_description}
 '''""", mod_toml_path)
+
+    def gen_base_mod_file(self) -> None:
+        """Generate the base mod file"""
+        env = Environment(loader=PackageLoader("pycraft", "templates"))
+        template = env.get_template('BaseMod.java')
+
+        data = {
+            "group_id": self.config.mod_group_id,
+            "class_name": self.config.mod_class_name,
+            "mod_id": self.config.mod_id
+        }
+        rendered_file = template.render(data)
+
+        output_path = Path(f"{self.mod_java_folder}/{self.config.mod_class_name}.java")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(rendered_file)
 
     def run_neoforge_client(self) -> None:
         """Starts the Neoforge client using gradle. Also checks if the mod files are found and fills the gradle.properties and neoforge.mods.toml"""

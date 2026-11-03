@@ -14,7 +14,9 @@ maintainers = [
 description = "Make Minecraft mods in pure Python"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "jinja2>=3.1.6",
+]
 
 [project.urls]
 "Homepage" = "https://github.com/armadillomike/pycraft"
