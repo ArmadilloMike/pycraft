@@ -52,7 +52,7 @@ class NeoforgeMod:
 
     def fill_gradle_props(self) -> None:
         """Fill the default gradle.properties file with correct content"""
-        properties = self.config.gen_neo_grade_prop()
+        properties = self.config.gen_neo_gradle_prop()
         gradle_props_file = Path(f"{self.mod_folder_name}/gradle.properties")
         gradle_props_file.write_text(properties)
 

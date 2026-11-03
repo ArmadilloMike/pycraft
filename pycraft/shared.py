@@ -50,7 +50,7 @@ class ModConfig:
         }
         return data
 
-    def gen_neo_grade_prop(self) -> str:
+    def gen_neo_gradle_prop(self) -> str:
         """Generate a neoforge gradle.properties file based upon the config values set"""
         config = self.VERSION_CONFIG.get(self.minecraft_version)
         if not config:
