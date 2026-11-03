@@ -8,11 +8,18 @@ from dataclasses import dataclass
 class ModConfig:
     """Mod Config class for both fabric and neoforge"""
     mod_name: str
+    mod_logo_file: str
+    mod_authors: str
     mod_id: str | None = None
     mod_version: str = "1.0.0"
     minecraft_version: str = "1.21.1"
     mod_license: str  = "All Right Reserved"
     mod_group_id: str | None = None
+    mod_homepage_url: str = "https://github.com/armadillomike/pycraft"
+    mod_credits: str = "PyCraft"
+    mod_description: str = """
+    This is a minecraft mod
+    """
 
     def __post_init__(self) -> None:
         if self.mod_id is None:
