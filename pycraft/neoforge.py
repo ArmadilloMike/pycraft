@@ -6,6 +6,7 @@ import os
 import urllib.request
 import urllib.error
 import zipfile
+from pathlib import Path
 
 from .shared import ModConfig
 
@@ -14,6 +15,7 @@ class NeoforgeMod:
 
     def __init__(self, config: ModConfig) -> None:
         self.config = config
+        self.mod_folder_name = f"{config.mod_id}-modfiles"
 
     def _clone_neoforge_repo(self, destination_path: str) -> None:
         """Clones the neoforge repo for the version of minecraft"""
@@ -37,7 +39,7 @@ class NeoforgeMod:
                 zip_ref.extractall(destination_path)
 
             old_folder_path = os.path.join(destination_path, original_root_folder)
-            new_folder_path = os.path.join(destination_path, f"{self.config.mod_name}-modfiles")
+            new_folder_path = os.path.join(destination_path, self.mod_folder_name)
 
             os.rename(old_folder_path, new_folder_path)
 
@@ -46,3 +48,9 @@ class NeoforgeMod:
             print(f"An HTTP error occurred: {e.code}. Try running again")
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
+
+    def fill_gradle_props(self) -> None:
+        """Fill the default gradle.properties file with correct content"""
+        properties = self.config.gen_neo_grade_prop()
+        gradle_props_file = Path(f"{self.mod_folder_name}/gradle.properties")
+        gradle_props_file.write_text(properties)
