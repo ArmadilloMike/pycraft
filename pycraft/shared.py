@@ -18,12 +18,14 @@ class ModConfig:
     mod_homepage_url: str | None = None
     mod_credits: str | None = None
     mod_description: str | None = None
+    mod_class_name = None
 
     def __post_init__(self) -> None:
         if self.mod_id is None:
             self.mod_id = self.mod_name.lower().replace(" ", "")
         if self.mod_group_id is None:
             self.mod_group_id = f"dev.pycraft.{self.mod_id}"
+        self.mod_class_name = self.mod_name.replace(" ", "")
     # Version config for each version, this is the part above the mod properties in the gradle.properties
     VERSION_CONFIG = {
         "1.21.1": {
