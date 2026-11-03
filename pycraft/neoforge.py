@@ -18,6 +18,8 @@ class NeoforgeMod:
     def __init__(self, config: ModConfig) -> None:
         self.config = config
         self.mod_folder_name = f"{config.mod_id}-modfiles"
+        group_id_to_folder = str(self.config.mod_group_id).replace(".", "/")
+        self.mod_java_folder = f"{self.mod_folder_name}/src/main/java/{group_id_to_folder}"
 
     def _clone_neoforge_repo(self, destination_path: str) -> None:
         """Clones the neoforge repo for the version of minecraft"""
