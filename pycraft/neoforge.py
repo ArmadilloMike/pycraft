@@ -122,11 +122,11 @@ Example mod description.
 class NeoforgeItem:
     """A NeoForge item definition"""
     item_name: str
-    item_description: str
-    max_stack_size: int
-    durability: int
-    fire_resistant: bool
-    rarity: int
+    item_description: str | None = None
+    max_stack_size: int | None = None
+    durability: int | None = None
+    fire_resistant: bool | None = None
+    rarity: int | None = None
 
     def __post_init__(self) -> None:
         self.item_id = self.item_name.lower().replace(" ", "_")
