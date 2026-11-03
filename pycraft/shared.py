@@ -67,7 +67,7 @@ class ModConfig:
             "mod_name": self.mod_name,
             "mod_license": self.mod_license,
             "mod_version": self.mod_version,
-            "mod>group_id": self.mod_group_id
+            "mod_group_id": self.mod_group_id
         }
 
         return "\n".join(f"{k}={v}" for k, v in properties.items()) + "\n"
