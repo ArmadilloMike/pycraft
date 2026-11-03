@@ -51,13 +51,13 @@ class NeoforgeMod:
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
 
-    def fill_gradle_props(self) -> None:
+    def _fill_gradle_props(self) -> None:
         """Fill the default gradle.properties file with correct content"""
         properties = self.config.gen_neo_gradle_prop()
         gradle_props_file = Path(f"{self.mod_folder_name}/gradle.properties")
         gradle_props_file.write_text(properties)
 
-    def replace_neoforge_mods_toml(self) -> None:
+    def _replace_neoforge_mods_toml(self) -> None:
         """Replace default values in neoforge.mods.tol with updated contents from config object"""
         mod_toml_path = f"{self.mod_folder_name}/src/main/templates/META-INF/neoforge.mods.toml"
         if self.config.mod_homepage_url is not None:
@@ -76,7 +76,16 @@ Example mod description.
 '''""", mod_toml_path)
 
     def run_neoforge_client(self) -> None:
-        """Starts the Neoforge client using gradle"""
+        """Starts the Neoforge client using gradle. Also checks if the mod files are found and fills the gradle.properties and neoforge.mods.toml"""
+
+        # Check if the mod folder exists, if not clone the directory
+        if not Path(self.mod_folder_name).is_dir():
+            self._clone_neoforge_repo(".")
+
+        # fill the gradle.properties and neoforge.mods.toml
+        self._fill_gradle_props()
+        self._replace_neoforge_mods_toml()
+
         gradle_exe = 'gradlew.bat' if os.name == 'nt' else './gradlew'
         gradle_command = [gradle_exe, 'runClient']
 
