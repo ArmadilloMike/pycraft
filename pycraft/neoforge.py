@@ -57,7 +57,7 @@ class NeoforgeMod:
         gradle_props_file.write_text(properties)
 
     def replace_neoforge_mods_toml(self) -> None:
-        """Replace default values in neofroge.mods.tol with updated contents from config object"""
+        """Replace default values in neoforge.mods.tol with updated contents from config object"""
         mod_toml_path = f"{self.mod_folder_name}/src/main/templates/META-INF/neoforge.mods.toml"
         if self.config.mod_homepage_url is not None:
             find_and_replace('#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional', f'displayURL="{self.config.mod_homepage_url}"', mod_toml_path)
