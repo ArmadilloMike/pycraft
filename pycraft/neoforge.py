@@ -87,3 +87,5 @@ Example mod description.
             subprocess.run(gradle_command, cwd=self.mod_folder_name, shell=is_windows, check=True)
         except subprocess.CalledProcessError as e:
             print(f"An error occurred while trying to start the NeoForge client: {e}")
+        except FileNotFoundError:
+            print("The gradle exe was not found, try deleting the mod folder and running again.")
