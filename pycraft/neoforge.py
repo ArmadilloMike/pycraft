@@ -3,6 +3,7 @@ Holds all the classes for neoforge modding
 """
 import io
 import os
+import subprocess
 import urllib.request
 import urllib.error
 import zipfile
@@ -73,3 +74,16 @@ Example mod description.
 '''""", f"""description='''
 {self.config.mod_description}
 '''""", mod_toml_path)
+
+    def run_neoforge_client(self) -> None:
+        """Starts the Neoforge client using gradle"""
+        gradle_exe = 'gradlew.bat' if os.name == 'nt' else './gradlew'
+        gradle_command = [gradle_exe, 'runClient']
+
+        print("Launching the NeoForge client")
+
+        try:
+            is_windows = os.name == 'nt'
+            subprocess.run(gradle_command, cwd=self.mod_folder_name, shell=is_windows, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"An error occurred while trying to start the NeoForge client: {e}")
