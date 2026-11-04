@@ -142,6 +142,9 @@ Example mod description.
         self._fill_gradle_props()
         self._replace_neoforge_mods_toml()
 
+        print("Applying code changes")
+        self.gen_base_mod_file()
+
         gradle_exe = 'gradlew.bat' if os.name == 'nt' else './gradlew'
         gradle_command = [gradle_exe, 'runClient']
 
