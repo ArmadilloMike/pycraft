@@ -95,6 +95,21 @@ Example mod description.
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(rendered_file)
 
+    def add_items(self, items: list["NeoforgeItem"]) -> None:
+        env = Environment(loader=PackageLoader("pycraft", "templates"))
+        template = env.get_template("ModItems.java")
+
+        data = {
+            "group_id": self.config.mod_id,
+            "class_name": self.config.mod_class_name,
+            "items": items
+        }
+        rendered_file = template.render(data)
+
+        output_path = Path(f"{self.mod_java_folder}/item/ModItems.java")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(rendered_file)
+
     def run_neoforge_client(self) -> None:
         """Starts the Neoforge client using gradle. Also checks if the mod files are found and fills the gradle.properties and neoforge.mods.toml"""
 
