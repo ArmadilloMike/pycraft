@@ -25,7 +25,7 @@ class NeoforgeMod:
         self.mod_java_folder = f"{self.mod_folder_name}/src/main/java/{group_id_to_folder}"
         self.lang_file_loc = f"{self.mod_folder_name}/src/main/resources/assets/{self.config.mod_id}/lang/en_us.json"
 
-    def _clone_neoforge_repo(self, destination_path: str) -> None:
+    def clone_neoforge_repo(self, destination_path: str) -> None:
         """Clones the neoforge repo for the version of minecraft"""
         if self.config.minecraft_version == "1.21.1":
             git_url = "https://github.com/pycraft-repos/1.21.1-neoforge-base".rstrip("/")
@@ -117,7 +117,7 @@ Example mod description.
         template = env.get_template("ModItems.java")
 
         data = {
-            "group_id": self.config.mod_id,
+            "group_id": self.config.mod_group_id,
             "class_name": self.config.mod_class_name,
             "items": items
         }

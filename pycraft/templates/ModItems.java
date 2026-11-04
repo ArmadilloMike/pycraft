@@ -6,11 +6,12 @@ import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraft.world.item.Rarity;
 
 public class ModItems {
     // Create the register for items
-    public static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(Registries.ITEM, {{ class_name }}.MODID);
+    public static final DeferredRegister.Items ITEMS =
+        DeferredRegister.createItems({{ class_name }}.MODID);
 
 {% for item in items %}
     {{ item.gen_java_code() }}
