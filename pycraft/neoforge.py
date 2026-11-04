@@ -111,6 +111,7 @@ Example mod description.
         output_path.write_text(rendered_file)
 
     def add_items(self, items: list["NeoforgeItem"]) -> None:
+        """Pass in a list of items and it will add them to the mod"""
         env = Environment(loader=PackageLoader("pycraft", "templates"))
         template = env.get_template("ModItems.java")
 
