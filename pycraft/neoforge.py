@@ -25,7 +25,7 @@ class NeoforgeMod:
         self.mod_java_folder = f"{self.mod_folder_name}/src/main/java/{group_id_to_folder}"
         self.lang_file_loc = f"{self.mod_folder_name}/src/main/resources/assets/{self.config.mod_id}/lang/en_us.json"
 
-    def clone_neoforge_repo(self, destination_path: str) -> None:
+    def _clone_neoforge_repo(self, destination_path: str) -> None:
         """Clones the neoforge repo for the version of minecraft"""
         if self.config.minecraft_version == "1.21.1":
             git_url = "https://github.com/pycraft-repos/1.21.1-neoforge-base".rstrip("/")
@@ -135,7 +135,7 @@ Example mod description.
         """Starts the Neoforge client using gradle. Also checks if the mod files are found and fills the gradle.properties and neoforge.mods.toml"""
 
         # Check if the mod folder exists, if not clone the directory
-        if not Path(self.mod_folder_name).is_dir():
+        if not Path(self.mod_folder_name).exists():
             self._clone_neoforge_repo(".")
 
         # fill the gradle.properties and neoforge.mods.toml
