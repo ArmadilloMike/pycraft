@@ -2,6 +2,7 @@
 Holds all the classes for neoforge modding
 """
 import io
+import json
 import os
 import subprocess
 import urllib.request
@@ -22,6 +23,7 @@ class NeoforgeMod:
         self.mod_folder_name = f"{config.mod_id}-modfiles"
         group_id_to_folder = str(self.config.mod_group_id).replace(".", "/")
         self.mod_java_folder = f"{self.mod_folder_name}/src/main/java/{group_id_to_folder}"
+        self.lang_file_loc = f"{self.mod_folder_name}/src/main/resources/assets/{self.config.mod_id}/lang/en_us.json"
 
     def _clone_neoforge_repo(self, destination_path: str) -> None:
         """Clones the neoforge repo for the version of minecraft"""
@@ -78,6 +80,19 @@ Example mod description.
 '''""", f"""description='''
 {self.config.mod_description}
 '''""", mod_toml_path)
+
+    def _add_entries_to_lang_file(self, entries: dict) -> None:
+        """Add specified entries to the en_us lang file"""
+        if Path(self.lang_file_loc).exists():
+            with open(self.lang_file_loc, "r") as file:
+                en_us = json.load(file)
+        else:
+            en_us = {}
+
+        en_us.update(entries)
+
+        with open(self.lang_file_loc, "w") as file:
+            json.dump(en_us, file, indent=4)
 
     def gen_base_mod_file(self) -> None:
         """Generate the base mod file"""
