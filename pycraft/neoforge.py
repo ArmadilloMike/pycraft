@@ -169,3 +169,11 @@ class NeoforgeItem:
                 ITEMS.registerSimpleItem("{self.item_id}", new Item.Properties()
                     {prop_string});'''
         return code
+
+    def gen_lang_lines(self) -> dict:
+        """Generate the lines for the language file. Returns a dict wih the info"""
+        en_us = {
+            f"item.{self.mod_id}.{self.item_id}": self.item_name,
+            f"item.{self.mod_id}.{self.item_id}.desc": self.item_description
+        }
+        return en_us
