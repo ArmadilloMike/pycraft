@@ -126,6 +126,10 @@ Example mod description.
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(rendered_file)
 
+        for item in items:
+            lang_lines = item.gen_lang_lines()
+            self._add_entries_to_lang_file(lang_lines)
+
     def run_neoforge_client(self) -> None:
         """Starts the Neoforge client using gradle. Also checks if the mod files are found and fills the gradle.properties and neoforge.mods.toml"""
 
