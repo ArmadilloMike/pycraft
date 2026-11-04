@@ -87,6 +87,7 @@ Example mod description.
             with open(self.lang_file_loc, "r") as file:
                 en_us = json.load(file)
         else:
+            Path(self.lang_file_loc).parent.mkdir(parents=True, exist_ok=True)
             en_us = {}
 
         en_us.update(entries)
