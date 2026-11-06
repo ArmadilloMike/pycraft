@@ -216,3 +216,21 @@ class NeoforgeItem:
             f"item.{self.mod_id}.{self.item_id}.desc": self.item_description
         }
         return en_us
+
+@dataclass
+class NeoforgeItemTexture:
+    """A texture for a neoforge item"""
+    item_id: str
+    mod_id: str
+    texture_path: Path
+    tool: bool = False
+
+    def gen_model_file(self) -> dict:
+        """Generate the model file for the item"""
+        model = {
+            "parent": f"{"minecraft:item/handheld" if self.tool else "minecraft:item/generated"}",
+            "textures": {
+                "layer0": f"{self.mod_id}:item/{self.item_id}"
+            }
+        }
+        return model
