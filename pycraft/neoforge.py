@@ -229,17 +229,20 @@ class NeoforgeItem:
         model_json = self.texture.gen_model_file()
         model_dir.mkdir(parents=True, exist_ok=True)
 
-        shutil.copy(self.texture.texture_path, f"{str(texture_path)}{self.item_id}.png")
+        shutil.copy(self.texture.texture_path, f"{str(texture_path)}/{self.item_id}.png")
 
         with open(model_path, "w") as file:
             json.dump(model_json, file, indent=4)
 @dataclass
 class NeoforgeItemTexture:
     """A texture for a neoforge item"""
-    item_id: str
+    item_name: str
     mod_id: str
     texture_path: Path
     tool: bool = False
+
+    def __post_init__(self):
+        self.item_id = self.item_name.lower().replace(" ", "_")
 
     def gen_model_file(self) -> dict:
         """Generate the model file for the item"""
