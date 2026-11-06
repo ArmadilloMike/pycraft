@@ -4,6 +4,7 @@ Holds all the classes for neoforge modding
 import io
 import json
 import os
+import shutil
 import subprocess
 import urllib.request
 import urllib.error
@@ -130,6 +131,7 @@ Example mod description.
         for item in items:
             lang_lines = item.gen_lang_lines()
             self._add_entries_to_lang_file(lang_lines)
+            item.gen_texture_files()
 
     def run_neoforge_client(self) -> None:
         """Starts the Neoforge client using gradle. Also checks if the mod files are found and fills the gradle.properties and neoforge.mods.toml"""
@@ -162,7 +164,8 @@ Example mod description.
 class NeoforgeItem:
     """A NeoForge item definition"""
     item_name: str
-    mod_id: str
+    texture: "NeoforgeItemTexture"
+    config: ModConfig
     item_description: str | None = None
     max_stack_size: int | None = None
     durability: int | None = None
@@ -200,7 +203,7 @@ class NeoforgeItem:
         if rarity_line:
             properties.append(rarity_line)
         if self.item_description is not None:
-            properties.append(f'.withDescription(Component.translatable("item.{self.mod_id}.{self.item_id}.desc"))')
+            properties.append(f'.withDescription(Component.translatable("item.{self.config.mod_id}.{self.item_id}.desc"))')
 
         prop_string = "\n            ".join(properties)
 
@@ -212,11 +215,24 @@ class NeoforgeItem:
     def gen_lang_lines(self) -> dict:
         """Generate the lines for the language file. Returns a dict wih the info"""
         en_us = {
-            f"item.{self.mod_id}.{self.item_id}": self.item_name,
-            f"item.{self.mod_id}.{self.item_id}.desc": self.item_description
+            f"item.{self.config.mod_id}.{self.item_id}": self.item_name,
+            f"item.{self.config.mod_id}.{self.item_id}.desc": self.item_description
         }
         return en_us
 
+    def gen_texture_files(self) -> None:
+        """Generate the model files and move the texture"""
+        texture_path = Path(f"{self.config.mod_id}-modfiles/src/main/resources/assets/{self.config.mod_id}/textures/item/")
+        texture_path.mkdir(parents=True, exist_ok=True)
+        model_dir = Path(f"{self.config.mod_id}-modfiles/src/main/resources/assets/{self.config.mod_id}/models/item/")
+        model_path = Path(f"{self.config.mod_id}-modfiles/src/main/resources/assets/{self.config.mod_id}/models/item/{self.item_id}.json")
+        model_json = self.texture.gen_model_file()
+        model_dir.mkdir(parents=True, exist_ok=True)
+
+        shutil.copy(self.texture.texture_path, f"{str(texture_path)}{self.item_id}.png")
+
+        with open(model_path, "w") as file:
+            json.dump(model_json, file, indent=4)
 @dataclass
 class NeoforgeItemTexture:
     """A texture for a neoforge item"""
