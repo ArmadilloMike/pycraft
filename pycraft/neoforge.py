@@ -253,3 +253,24 @@ class NeoforgeItemTexture:
             }
         }
         return model
+
+@dataclass
+class NeoforgeFoodProperties:
+    nutrition: int
+    saturation: float | int = 0.5
+    always_edible: bool = False
+    fast_eating: bool = False
+
+    def gen_food_properties_line(self, item_id: str) -> str:
+        properties = [f".nutrition({self.nutrition})", f".saturationMod({self.saturation}"]
+        if self.always_edible:
+            properties.append(".alwaysEdible()")
+        if self.fast_eating:
+            properties.append(".fast()")
+        properties.append(".build();")
+
+        prop_string = "\n            ".join(properties)
+
+        code = f'''public static final FoodProperties {item_id.upper() + "_PROPERTIES"} = new FoodProperties.Builder()
+                       {prop_string});'''
+        return code
