@@ -14,6 +14,9 @@ public class ModItems {
         DeferredRegister.createItems({{ class_name }}.MODID);
 
 {% for item in items %}
+    {% if item.food_properties is not none %}
+        {{ item.food_properties.gen_food_properties_line(item.item_id) }}
+    {% endif %}
     {{ item.gen_java_code() }}
 {% endfor %}
 

@@ -171,6 +171,7 @@ class NeoforgeItem:
     durability: int | None = None
     fire_resistant: bool = False
     rarity: int | None = None
+    food_properties: "NeoforgeFoodProperties | None" = None
 
     def __post_init__(self) -> None:
         self.item_id = self.item_name.lower().replace(" ", "_")
@@ -202,6 +203,8 @@ class NeoforgeItem:
             properties.append(".fireResistant()")
         if rarity_line:
             properties.append(rarity_line)
+        if self.food_properties is not None:
+            properties.append(f".food({self.item_id.upper() + "_PROPERTIES"}")
         if self.item_description is not None:
             properties.append(f'.withDescription(Component.translatable("item.{self.config.mod_id}.{self.item_id}.desc"))')
 
