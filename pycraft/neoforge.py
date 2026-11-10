@@ -204,7 +204,7 @@ class NeoforgeItem:
         if rarity_line:
             properties.append(rarity_line)
         if self.food_properties is not None:
-            properties.append(f".food({self.item_id.upper() + "_PROPERTIES"}")
+            properties.append(f".food({self.item_id.upper() + "_PROPERTIES"})")
         if self.item_description is not None:
             properties.append(f'.withDescription(Component.translatable("item.{self.config.mod_id}.{self.item_id}.desc"))')
 
@@ -265,7 +265,7 @@ class NeoforgeFoodProperties:
     fast_eating: bool = False
 
     def gen_food_properties_line(self, item_id: str) -> str:
-        properties = [f".nutrition({self.nutrition})", f".saturationMod({self.saturation}"]
+        properties = [f".nutrition({self.nutrition})", f".saturationModifier({self.saturation}f)"]
         if self.always_edible:
             properties.append(".alwaysEdible()")
         if self.fast_eating:
@@ -274,6 +274,6 @@ class NeoforgeFoodProperties:
 
         prop_string = "\n            ".join(properties)
 
-        code = f'''public static final FoodProperties {item_id.upper() + "_PROPERTIES"} = new FoodProperties.Builder()
-                       {prop_string});'''
+        code = f'''public static final net.minecraft.world.food.FoodProperties {item_id.upper() + "_PROPERTIES"} = new net.minecraft.world.food.FoodProperties.Builder()
+                       {prop_string}'''
         return code
