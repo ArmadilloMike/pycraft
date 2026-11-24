@@ -3,7 +3,7 @@ Holds all vanilla minecraft items/blocks/etc.
 """
 from dataclasses import dataclass
 
-@dataclass
+@dataclass(frozen=True)
 class Item:
     id: str
     display_name: str
