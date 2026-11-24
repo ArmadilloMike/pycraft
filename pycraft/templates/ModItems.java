@@ -22,9 +22,6 @@ public class ModItems {
     {% if item.food_properties is not none %}
         {{ item.food_properties.gen_food_properties_line(item.item_id) }}
     {% endif %}
-    {% if item.item_material is not none %}
-        {{ item.item_material.gen_java_code() }}
-    {% endif %}
     {{ item.gen_java_code() }}
 {% endfor %}
 
