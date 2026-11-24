@@ -15,6 +15,7 @@ from jinja2 import Environment, PackageLoader
 
 from ._utils import find_and_replace
 from .shared import ModConfig
+from .vanilla import VanillaItems
 
 class NeoforgeMod:
     """Main mod class for neoforge mods"""
