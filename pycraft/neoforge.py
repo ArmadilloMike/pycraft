@@ -236,6 +236,7 @@ class NeoforgeItem:
 
         with open(model_path, "w") as file:
             json.dump(model_json, file, indent=4)
+
 @dataclass
 class NeoforgeItemTexture:
     """A texture for a neoforge item"""
