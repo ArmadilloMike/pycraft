@@ -9,6 +9,16 @@ class Item:
     display_name: str
     stack_size: int
 
+@dataclass(frozen=True)
+class Tier:
+    id: str
+    display_name: str
+    uses: int
+    speed: float
+    attack_damage_bonus: float
+    enchantment_value: int
+    incorrect_blocks_for_drops: str
+    repair_ingredient: str
 
 class VanillaItems:
     """Auto-generated Minecraft Item Registry Mapping"""
@@ -1398,3 +1408,11 @@ class VanillaItems:
     VAULT = Item("minecraft:vault", "Vault", 64)
     OMINOUS_BOTTLE = Item("minecraft:ominous_bottle", "Ominous Bottle", 64)
 
+class VanillaTiers:
+    """Auto-generated Minecraft 1.21.1 Tool Tiers Mapping"""
+    WOOD = Tier("minecraft:wood", "Wood", 59, 2.0, 0.0, 15, "minecraft:incorrect_for_wooden_tool", "#minecraft:planks",)
+    STONE = Tier("minecraft:stone", "Stone", 131, 4.0, 1.0, 5, "minecraft:incorrect_for_stone_tool", "#minecraft:stone_tool_materials",)
+    IRON = Tier("minecraft:iron", "Iron", 250, 6.0, 2.0, 14, "minecraft:incorrect_for_iron_tool", "minecraft:iron_ingot",)
+    DIAMOND = Tier("minecraft:diamond", "Diamond", 1561, 8.0, 3.0, 10, "minecraft:incorrect_for_diamond_tool", "minecraft:diamond",)
+    GOLD = Tier("minecraft:gold", "Gold", 32, 12.0, 0.0, 22, "minecraft:incorrect_for_gold_tool", "minecraft:gold_ingot",)
+    NETHERITE = Tier("minecraft:netherite", "Netherite", 2031, 9.0, 4.0, 15, "minecraft:incorrect_for_netherite_tool", "minecraft:netherite_ingot",)
