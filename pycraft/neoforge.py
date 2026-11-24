@@ -277,3 +277,38 @@ class NeoforgeFoodProperties:
         code = f'''public static final net.minecraft.world.food.FoodProperties {item_id.upper() + "_PROPERTIES"} = new net.minecraft.world.food.FoodProperties.Builder()
                        {prop_string}'''
         return code
+
+@dataclass
+class NeoforgeItemMaterial:
+    """Create an item material for a neoforge item"""
+    name: str
+    durability: int = 250
+    mining_speed: float | int = 6.0
+    damage_modifier: float | int = 3.0
+    enchantability: int = 14
+    repair_item: NeoforgeItem | VanillaItems = VanillaItems.IRON_INGOT
+
+    def gen_java_code(self) -> str:
+        """Generate java code for a NeoforgeItemMaterial"""
+        if self.repair_item is NeoforgeItem:
+            repair_line = f"() -> Ingredient.of(ModItems.{self.repair_item.item_id.upper()}.get())"
+        elif self.repair_item is VanillaItems:
+            repair_line = f"() -> Ingredient.of(Items.{self.repair_item.id[9:].upper()})"
+        else:
+            repair_line = "() -> Ingredient.of(Items.IRON_INGOT)"
+
+        if not self.name.lower().__contains__("_tier") or not self.name.lower().__contains__("_tier"):
+            material_name = self.name + "_material"
+        else:
+            material_name = self.name
+        material_name = material_name.upper()
+
+        block = f"""public static final Tier {material_name} = new SimpleTier(
+    BlockTags.INCORRECT_FOR_IRON_TOOL,
+    {self.durability},
+    {float(self.mining_speed)}F,
+    {float(self.damage_modifier)}F,
+    {self.enchantability},
+    {repair_line}
+);"""
+        return block
